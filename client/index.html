@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello World</title>
+    <style>
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      input {
+        width: 30%;
+        padding: 10px 15px;
+        margin: 5px;
+      }
+      input[type="submit"] {
+        width: 10%;
+        margin-left: 12%;
+      }
+      button[type="button"] {
+        padding: 10px 15px;
+        border-radius: 15px;
+        border: 0;
+        background-color: indianred;
+        color: white;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <form onsubmit="return handleFormSubmit()">
+      <input type="text" id="name" name="name" placeholder="Enter your name" autocomplete="off" />
+      <input type="email" id="email" name="email" placeholder="Enter your email" autocomplete="off" />
+      <input type="number" id="mobile" name="mobile" placeholder="Enter your mobile" autocomplete="off" />
+      <input type="submit" value="Submit" name="submit" />
+    </form>
+    <button type="button" onclick="getAllData()" >Click Me</button>
+    <p>Total Records - <span id="records">0</span></p>
+    <script>
+      function handleFormSubmit(){
+        event.preventDefault();
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const mobile = document.getElementById("mobile").value;
+        
+        fetch(`http://localhost:4000/addData?name=${name}&email=${email}&mobile=${mobile}`)
+          .then((response) => {
+            getAllData()
+          })
+      }
+
+      function getAllData(){
+        fetch(`http://localhost:4000/getData`)
+          .then((response) => response.json())
+          .then((response) => {
+            document.getElementById("records").innerHTML = response.length;
+          })
+      }
+    </script>
+  </body>
+</html>

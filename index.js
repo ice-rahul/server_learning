@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors')
 const dotenv = require("dotenv");
 const sequelize = require("./db/db.js");
 const initModels = require("./models/init-models.js");
@@ -7,6 +8,8 @@ var models = initModels(sequelize);
 dotenv.config();
 
 const app = express();
+
+app.use(cors());
 
 app.get("/", function (req, res) {
   res.send("Hello World");
